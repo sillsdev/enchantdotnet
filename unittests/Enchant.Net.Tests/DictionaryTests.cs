@@ -1,15 +1,15 @@
 /* Copyright (c) 2007 Eric Scott Albright
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using Microsoft.Win32;
 using NUnit.Framework;
@@ -78,65 +79,42 @@ namespace Enchant.Tests
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			string providerDir = Path.Combine(Path.Combine(
-								 Directory.GetCurrentDirectory(), "lib"), "enchant");
-			if (!Directory.Exists(providerDir))
-			{
-				Directory.CreateDirectory(providerDir);
-			}
-			File.Copy("libenchant_ispell.dll",
-								Path.Combine(providerDir, "libenchant_ispell.dll"), true);
-			File.Copy("libenchant_myspell.dll",
-								Path.Combine(providerDir, "libenchant_myspell.dll"), true);
-            InstallDictionary("myspell", new string[]{"en_US.aff", "en_US.dic"});
+			TestSetupMethods.FixtureSetup();
 		}
 
-        static private void InstallDictionary(string provider, IEnumerable<string> files)
-        {
-            string dictionarySourceDir =
-                    Path.Combine(Path.Combine(Path.Combine(Path.Combine(Path.Combine(Path.Combine(
-                                             Directory.GetCurrentDirectory(), ".."), ".."),
-                                             "lib"), "share"),
-                                              "enchant"), provider);
-
-            string dictionaryDestDir = Path.Combine(Path.Combine(Path.Combine(
-                                                    Directory.GetCurrentDirectory(), "share"), "enchant"),
-                                                    provider);
-
-            if (!Directory.Exists(dictionaryDestDir))
-            {
-                Directory.CreateDirectory(dictionaryDestDir);
-            }
-
-            foreach (string file in files)
-            {
-                File.Copy(Path.Combine(dictionarySourceDir, file),
-                          Path.Combine(dictionaryDestDir, file), true);
-
-            }
-        }
-        
 		[TestFixtureTearDown]
 		public void FixtureTearDown()
 		{
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "lib"), true);
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "share"), true);
+			TestSetupMethods.FixtureTearDown();
+		}
+
+		private static string RandomWord
+		{
+			get
+			{
+				var bldr = new StringBuilder();
+				var random = new Random();
+				for (int i = 0; i < 6; i++)
+					bldr.Append(Convert.ToChar(random.Next(65, 90)));
+
+				return bldr.ToString();
+			}
 		}
 
 		[Test]
 		public void Add()
 		{
-			Assert.IsFalse(dictionary.Check("Googled"));
-			dictionary.Add("Googled");
-			Assert.IsTrue(dictionary.Check("Googled"));
+			var word = RandomWord;
+			dictionary.Add(word);
+			Assert.IsTrue(dictionary.Check(word));
 		}
 
 		[Test]
-		public void AddToSession(string word)
+		public void AddToSession()
 		{
-			Assert.IsFalse(dictionary.Check("list"));
-			dictionary.AddToSession("list");
-			Assert.IsTrue(dictionary.Check("list"));
+			var word = RandomWord;
+			dictionary.AddToSession(word);
+			Assert.IsTrue(dictionary.Check(word));
 		}
 
 		[Test]
@@ -164,39 +142,47 @@ namespace Enchant.Tests
 		[Test]
 		public void IsAdded()
 		{
-			Assert.IsFalse(dictionary.IsAdded("list"));
-			dictionary.AddToSession("list");
-			Assert.IsTrue(dictionary.IsAdded("list"));
+			var word = RandomWord;
+			Assert.IsFalse(dictionary.IsAdded(word));
+			dictionary.AddToSession(word);
+			Assert.IsTrue(dictionary.IsAdded(word));
 		}
 
 		[Test]
 		public void IsRemoved()
 		{
-			Assert.IsFalse(dictionary.IsRemoved("list"));
-			dictionary.RemoveFromSession("list");
-			Assert.IsTrue(dictionary.IsRemoved("list"));
+			var word = RandomWord;
+			dictionary.Add(word);
+			Assert.IsFalse(dictionary.IsRemoved(word));
+			dictionary.RemoveFromSession(word);
+			Assert.IsTrue(dictionary.IsRemoved(word));
 		}
 
 		[Test]
 		public void Remove()
 		{
-			Assert.IsTrue(dictionary.Check("world"));
-			dictionary.Remove("world");
-			Assert.IsFalse(dictionary.Check("world"));
+			var word = RandomWord;
+			dictionary.Add(word);
+			Assert.IsTrue(dictionary.Check(word));
+			dictionary.Remove(word);
+			Assert.IsFalse(dictionary.Check(word));
 		}
 
 		[Test]
 		public void RemoveFromSession()
 		{
-			Assert.IsTrue(dictionary.Check("hello"));
-			dictionary.RemoveFromSession("hello");
-			Assert.IsFalse(dictionary.Check("hello"));
+			var word = RandomWord;
+			dictionary.Add(word);
+			Assert.IsTrue(dictionary.Check(word));
+			dictionary.RemoveFromSession(word);
+			Assert.IsFalse(dictionary.Check(word));
 		}
 
 		[Test]
 		public void StoreReplacement()
 		{
-			dictionary.StoreReplacement("theirs", "their's");
+			Assert.That(() => dictionary.StoreReplacement("theirs", "their's"),
+				Throws.Nothing);
 		}
 
 		[Test]
