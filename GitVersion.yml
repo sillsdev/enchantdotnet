@@ -28,3 +28,4 @@ branches:
     regex: feature[/-]
     mode: ContinuousDeployment
     tag: alpha
+next-version: 1.4.2
