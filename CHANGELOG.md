@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.2] - 2019-02-12
+
 ### Changed
 
-- Create nuget package
+- Release as nuget package
