@@ -16,6 +16,8 @@
     <OutputPath>../../../output/$(Configuration)</OutputPath>
     <PackageOutputPath>../../../output</PackageOutputPath>
     <ChangelogFile>../../../CHANGELOG.md</ChangelogFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../../../sgKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
