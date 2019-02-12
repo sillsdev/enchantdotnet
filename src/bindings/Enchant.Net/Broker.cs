@@ -1,15 +1,15 @@
 /* Copyright (c) 2007 Eric Scott Albright
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -251,7 +251,7 @@ namespace Enchant
 	        dictionary = new Dictionary(handle);
 	        dictionary.Disposed += OnDictionaryDisposed;
 	        // always store the dictionaries we have created
-	        // so that we can dispose of them cleanly and give a 
+	        // so that we can dispose of them cleanly and give a
 	        // better error message (ObjectDisposed) instead of a crash
 	        // if someone tries to use a dictionary after the broker
 	        // that created it has been disposed.
@@ -274,7 +274,7 @@ namespace Enchant
 	    private static bool RemoveDictionaryFromCache(IDictionary<string, WeakReference> cache, Dictionary dictionary) {
 	        foreach (KeyValuePair<string, WeakReference> pair in cache)
 	        {
-                if (pair.Value.IsAlive 
+                if (pair.Value.IsAlive
                     && pair.Value.Target == dictionary)
                 {
                     cache.Remove(pair.Key);
