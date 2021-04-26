@@ -1,9 +1,9 @@
 assembly-versioning-scheme: MajorMinor
 mode: ContinuousDeployment
 branches:
-  enchantdotnet:
+  main:
     tag: beta
-    regex: (origin/)?enchantdotnet
+    regex: (origin/)?main
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
