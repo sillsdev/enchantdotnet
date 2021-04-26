@@ -76,13 +76,13 @@ namespace Enchant.Tests
 		private string tempdir;
 		private string oldRegistryValue;
 
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void FixtureSetup()
 		{
 			TestSetupMethods.FixtureSetup();
 		}
 
-		[TestFixtureTearDown]
+		[OneTimeTearDown]
 		public void FixtureTearDown()
 		{
 			TestSetupMethods.FixtureTearDown();

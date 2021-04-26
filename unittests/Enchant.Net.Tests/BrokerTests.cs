@@ -69,13 +69,13 @@ namespace Enchant.Tests
 		private string tempdir;
 		private string oldRegistryValue;
 
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void FixtureSetup()
 		{
 			TestSetupMethods.FixtureSetup();
 		}
 
-		[TestFixtureTearDown]
+		[OneTimeTearDown]
 		public void FixtureTearDown()
 		{
 			TestSetupMethods.FixtureTearDown();
@@ -178,7 +178,7 @@ namespace Enchant.Tests
 				using (dictionaryFirstRequest = broker.RequestDictionary("en_US")) {}
 				var dictionarySecondRequest = broker.RequestDictionary("en_US");
 
-					Assert.AreNotSame(dictionaryFirstRequest, dictionarySecondRequest);
+				Assert.AreNotSame(dictionaryFirstRequest, dictionarySecondRequest);
 			}
 		}
 
@@ -212,7 +212,6 @@ namespace Enchant.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(ObjectDisposedException))]
 		public void Dispose_UseDictionaryAfterBrokerDisposed_Throws()
 		{
 			Dictionary dictionary;
@@ -220,16 +219,16 @@ namespace Enchant.Tests
 			{
 				dictionary = broker.RequestDictionary("en_US");
 			}
-			var info = dictionary.Information;
+			Assert.That(() => dictionary.Information, Throws.TypeOf<ObjectDisposedException>());
 		}
 
 		[Test]
-		[ExpectedException(typeof (ApplicationException))]
 		public void RequestDictionary_DictionaryDoesNotExist_Throws()
 		{
 			using (var broker = new Broker())
 			{
-				broker.RequestDictionary("qaa");
+				Assert.That(() => broker.RequestDictionary("qaa"),
+					Throws.TypeOf<ApplicationException>());
 			}
 		}
 
@@ -237,13 +236,19 @@ namespace Enchant.Tests
 		public void RequestPwlDictionary()
 		{
 			var filename = Path.GetTempFileName();
-			using (var broker = new Broker())
+			try
 			{
-				using (var dictionary = broker.RequestPwlDictionary(filename))
+				using (var broker = new Broker())
 				{
-					Assert.IsNotNull(dictionary);
-					File.Delete(filename);
+					using (var dictionary = broker.RequestPwlDictionary(filename))
+					{
+						Assert.That(dictionary, Is.Not.Null);
+					}
 				}
+			}
+			finally
+			{
+				File.Delete(filename);
 			}
 		}
 
@@ -252,7 +257,8 @@ namespace Enchant.Tests
 		{
 			using (var broker = new Broker())
 			{
-				broker.SetOrdering("en_US", "aspell, myspell, ispell");
+				Assert.That(() => broker.SetOrdering("en_US", "aspell, myspell, ispell"),
+					Throws.Nothing);
 			}
 		}
 
