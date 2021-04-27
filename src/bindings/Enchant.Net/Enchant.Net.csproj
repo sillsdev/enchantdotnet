@@ -11,7 +11,7 @@
     <Product>Enchant</Product>
     <Copyright>Copyright © 2007-2008 Eric Scott Albright</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/ermshiperete/enchantdotnet</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/sillsdev/enchantdotnet</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <OutputPath>../../../output/$(Configuration)</OutputPath>
     <PackageOutputPath>../../../output</PackageOutputPath>
@@ -23,7 +23,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <AppendToReleaseNotesProperty><![CDATA[
-See full changelog at https://github.com/ermshiperete/enchantdotnet/blob/enchantdotnet/CHANGELOG.md]]>
+See full changelog at https://github.com/sillsdev/enchantdotnet/blob/main/CHANGELOG.md]]>
     </AppendToReleaseNotesProperty>
     <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
   </PropertyGroup>
