@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net461</TargetFrameworks>
@@ -26,12 +26,17 @@
 See full changelog at https://github.com/ermshiperete/enchantdotnet/blob/enchantdotnet/CHANGELOG.md]]>
     </AppendToReleaseNotesProperty>
     <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="GitVersion.MsBuild" Version="5.6.8" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="SIL.ReleaseTasks" Version="2.5.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="App.config" Pack="true" PackagePath="contentFiles\any\any\Enchant.Net.dll.config" />
   </ItemGroup>
 
 </Project>
