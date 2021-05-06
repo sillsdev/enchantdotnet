@@ -21,3 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Release as nuget package
+
+### Fixed
+
+- include .dll.config file in nuget package (#1)
