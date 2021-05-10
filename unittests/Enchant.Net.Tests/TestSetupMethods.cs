@@ -8,8 +8,9 @@ namespace Enchant.Tests
 	{
 		public static void FixtureSetup()
 		{
-			var providerDir = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "lib"),
+			var providerDir = Path.Combine(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "lib"),
 				"enchant");
+			
 			if (!Directory.Exists(providerDir))
 			{
 				Directory.CreateDirectory(providerDir);
@@ -28,10 +29,10 @@ namespace Enchant.Tests
 
 		private static void InstallDictionary(string provider, IEnumerable<string> files)
 		{
-			var dictionarySourceDir = Directory.GetCurrentDirectory();
+			string dictionarySourceDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
 			var dictionaryDestDir = Path.Combine(Path.Combine(Path.Combine(
-					Directory.GetCurrentDirectory(), "share"), "enchant"),
+					Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "share"), "enchant"),
 				provider);
 
 			if (!Directory.Exists(dictionaryDestDir))
@@ -48,8 +49,8 @@ namespace Enchant.Tests
 
 		public static void FixtureTearDown()
 		{
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "lib"), true);
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "share"), true);
+			Directory.Delete(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "lib"), true);
+			Directory.Delete(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "share"), true);
 		}
 	}
 }
