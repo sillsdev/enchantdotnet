@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace Enchant.Tests
 {
 	public static class TestSetupMethods
 	{
+		private static string currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
 		public static void FixtureSetup()
 		{
-			var providerDir = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "lib"),
+			var providerDir = Path.Combine(currentDir, "lib",
 				"enchant");
 			if (!Directory.Exists(providerDir))
 			{
@@ -28,10 +31,10 @@ namespace Enchant.Tests
 
 		private static void InstallDictionary(string provider, IEnumerable<string> files)
 		{
-			var dictionarySourceDir = Directory.GetCurrentDirectory();
+			var dictionarySourceDir = currentDir;
 
-			var dictionaryDestDir = Path.Combine(Path.Combine(Path.Combine(
-					Directory.GetCurrentDirectory(), "share"), "enchant"),
+			var dictionaryDestDir = Path.Combine(
+					currentDir, "share", "enchant",
 				provider);
 
 			if (!Directory.Exists(dictionaryDestDir))
@@ -48,8 +51,8 @@ namespace Enchant.Tests
 
 		public static void FixtureTearDown()
 		{
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "lib"), true);
-			Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "share"), true);
+			Directory.Delete(Path.Combine(currentDir, "lib"), true);
+			Directory.Delete(Path.Combine(currentDir, "share"), true);
 		}
 	}
 }
